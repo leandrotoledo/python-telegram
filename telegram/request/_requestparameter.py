@@ -115,6 +115,11 @@ class RequestParameter:
         """
         if isinstance(value, dtm.datetime):
             return to_timestamp(value), []
+        if isinstance(value, dtm.timedelta):
+            seconds = value.total_seconds()
+            if seconds.is_integer():
+                return int(seconds), []
+            return value.total_seconds(), []
         if isinstance(value, StringEnum):
             return value.value, []
         if isinstance(value, InputFile):
